@@ -55,8 +55,49 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-md mx-auto px-4 py-6 pb-24">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="fixed inset-0 pointer-events-none">
+        {/* Subtle grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--muted))_1px,transparent_1px),linear-gradient(90deg,hsl(var(--muted))_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,black_70%,transparent_110%)]" />
+        
+        {/* Gradient blobs */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-muted/50 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-muted/50 rounded-full blur-3xl" />
+        
+        {/* Geometric shapes */}
+        <div className="absolute top-20 left-8 w-3 h-3 border-2 border-muted-foreground/10 rounded-full" />
+        <div className="absolute top-32 right-12 w-4 h-4 border-2 border-muted-foreground/10 rotate-45" />
+        <div className="absolute top-1/3 left-6 w-2 h-2 bg-muted-foreground/10 rounded-full" />
+        <div className="absolute top-1/2 right-8 w-3 h-3 border-2 border-muted-foreground/10 rounded-sm rotate-12" />
+        <div className="absolute bottom-40 left-10 w-4 h-4 border-2 border-muted-foreground/10 rounded-full" />
+        <div className="absolute bottom-60 right-16 w-2 h-2 bg-muted-foreground/10" />
+        
+        {/* Dotted pattern */}
+        <div className="absolute top-40 right-4 flex flex-col gap-2">
+          <div className="flex gap-2">
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+          </div>
+          <div className="flex gap-2">
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+          </div>
+          <div className="flex gap-2">
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
+          </div>
+        </div>
+        
+        {/* Lines */}
+        <div className="absolute top-28 left-0 w-16 h-px bg-gradient-to-r from-transparent via-muted-foreground/20 to-transparent" />
+        <div className="absolute bottom-52 right-0 w-20 h-px bg-gradient-to-l from-transparent via-muted-foreground/20 to-transparent" />
+      </div>
+
+      <div className="relative max-w-md mx-auto px-4 py-6 pb-24">
         {/* Header */}
         <Card className="mb-6">
           <CardHeader className="text-center pb-4">
