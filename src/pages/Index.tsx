@@ -10,7 +10,9 @@ import {
   RefreshCw,
   Shuffle,
   Copy,
-  Check
+  Check,
+  AtSign,
+  KeyRound
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,6 +40,8 @@ const Index = () => {
 性别: ${info.gender}
 年龄: ${info.age}岁
 生日: ${info.birthday}
+用户名: ${info.username}
+密码: ${info.password}
 手机: ${info.phone}
 邮箱: ${info.email}
 身份证: ${info.idCard}
@@ -125,40 +129,52 @@ const Index = () => {
               delay={50}
             />
             <InfoCard
+              label="用户名"
+              value={info.username}
+              icon={<AtSign size={18} />}
+              delay={100}
+            />
+            <InfoCard
+              label="密码"
+              value={info.password}
+              icon={<KeyRound size={18} />}
+              delay={150}
+            />
+            <InfoCard
               label="手机号码"
               value={info.phone}
               icon={<Phone size={18} />}
-              delay={100}
+              delay={200}
             />
             <InfoCard
               label="电子邮箱"
               value={info.email}
               icon={<Mail size={18} />}
-              delay={150}
+              delay={250}
             />
             <InfoCard
               label="身份证号"
               value={info.idCard}
               icon={<CreditCard size={18} />}
-              delay={200}
+              delay={300}
             />
             <InfoCard
               label="银行卡号"
               value={info.bankCard.replace(/(\d{4})/g, '$1 ').trim()}
               icon={<CreditCard size={18} />}
-              delay={250}
+              delay={350}
             />
             <InfoCard
               label="住址"
               value={info.address}
               icon={<MapPin size={18} />}
-              delay={300}
+              delay={400}
             />
             <InfoCard
               label="公司"
               value={info.company}
               icon={<Building2 size={18} />}
-              delay={350}
+              delay={450}
             />
 
             {/* Copy All Button */}
