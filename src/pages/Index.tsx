@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { 
   User, 
   Phone, 
@@ -8,7 +9,9 @@ import {
   Sparkles,
   Copy,
   Check,
-  KeyRound
+  KeyRound,
+  Smartphone,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InfoCard } from "@/components/InfoCard";
@@ -115,6 +118,16 @@ const Index = () => {
           <p className="text-sm text-muted-foreground">
             点击卡片即可复制
           </p>
+          
+          {/* Navigation to phone generator */}
+          <Link 
+            to="/sjh" 
+            className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-xl bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-all group"
+          >
+            <Smartphone className="w-4 h-4" />
+            <span className="text-sm">批量手机号生成器</span>
+            <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+          </Link>
         </header>
 
         {/* Cards */}
