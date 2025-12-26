@@ -3,15 +3,11 @@ import {
   User, 
   Phone, 
   Mail, 
-  CreditCard, 
-  MapPin, 
-  Building2, 
   Calendar, 
   RefreshCw,
   Shuffle,
   Copy,
   Check,
-  AtSign,
   KeyRound
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -37,17 +33,10 @@ const Index = () => {
     if (!info) return;
     
     const text = `姓名: ${info.name}
-性别: ${info.gender}
-年龄: ${info.age}岁
 生日: ${info.birthday}
-用户名: ${info.username}
-密码: ${info.password}
-手机: ${info.phone}
 邮箱: ${info.email}
-身份证: ${info.idCard}
-银行卡: ${info.bankCard}
-地址: ${info.address}
-公司: ${info.company}`;
+手机: ${info.phone}
+密码: ${info.password}`;
 
     await navigator.clipboard.writeText(text);
     setAllCopied(true);
@@ -102,63 +91,33 @@ const Index = () => {
             <>
               <InfoCard
                 label="姓名"
-                value={`${info.name} (${info.gender})`}
+                value={info.name}
                 icon={<User size={16} />}
                 delay={0}
               />
               <InfoCard
                 label="生日"
-                value={`${info.birthday} · ${info.age}岁`}
+                value={info.birthday}
                 icon={<Calendar size={16} />}
                 delay={40}
-              />
-              <InfoCard
-                label="用户名"
-                value={info.username}
-                icon={<AtSign size={16} />}
-                delay={80}
-              />
-              <InfoCard
-                label="密码"
-                value={info.password}
-                icon={<KeyRound size={16} />}
-                delay={120}
-              />
-              <InfoCard
-                label="手机"
-                value={info.phone}
-                icon={<Phone size={16} />}
-                delay={160}
               />
               <InfoCard
                 label="邮箱"
                 value={info.email}
                 icon={<Mail size={16} />}
-                delay={200}
+                delay={80}
               />
               <InfoCard
-                label="身份证"
-                value={info.idCard}
-                icon={<CreditCard size={16} />}
-                delay={240}
+                label="手机"
+                value={info.phone}
+                icon={<Phone size={16} />}
+                delay={120}
               />
               <InfoCard
-                label="银行卡"
-                value={info.bankCard.replace(/(\d{4})/g, '$1 ').trim()}
-                icon={<CreditCard size={16} />}
-                delay={280}
-              />
-              <InfoCard
-                label="地址"
-                value={info.address}
-                icon={<MapPin size={16} />}
-                delay={320}
-              />
-              <InfoCard
-                label="公司"
-                value={info.company}
-                icon={<Building2 size={16} />}
-                delay={360}
+                label="密码"
+                value={info.password}
+                icon={<KeyRound size={16} />}
+                delay={160}
               />
             </>
           ) : (
