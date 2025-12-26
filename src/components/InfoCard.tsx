@@ -7,9 +7,10 @@ interface InfoCardProps {
   value: string;
   icon: React.ReactNode;
   delay?: number;
+  multiline?: boolean;
 }
 
-export const InfoCard = ({ label, value, icon, delay = 0 }: InfoCardProps) => {
+export const InfoCard = ({ label, value, icon, delay = 0, multiline = false }: InfoCardProps) => {
   const [copied, setCopied] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
 
