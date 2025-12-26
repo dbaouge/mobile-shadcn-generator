@@ -122,43 +122,43 @@ const Index = () => {
               label="年龄 / 生日"
               value={`${info.age}岁 · ${info.birthday}`}
               icon={<Calendar size={18} />}
-              delay={30}
+              delay={50}
             />
             <InfoCard
               label="手机号码"
               value={info.phone}
               icon={<Phone size={18} />}
-              delay={60}
+              delay={100}
             />
             <InfoCard
               label="电子邮箱"
               value={info.email}
               icon={<Mail size={18} />}
-              delay={90}
+              delay={150}
             />
             <InfoCard
               label="身份证号"
               value={info.idCard}
               icon={<CreditCard size={18} />}
-              delay={120}
+              delay={200}
             />
             <InfoCard
               label="银行卡号"
               value={info.bankCard.replace(/(\d{4})/g, '$1 ').trim()}
               icon={<CreditCard size={18} />}
-              delay={150}
+              delay={250}
             />
             <InfoCard
               label="住址"
               value={info.address}
               icon={<MapPin size={18} />}
-              delay={180}
+              delay={300}
             />
             <InfoCard
               label="公司"
               value={info.company}
               icon={<Building2 size={18} />}
-              delay={210}
+              delay={350}
             />
 
             {/* Copy All Button */}
