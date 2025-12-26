@@ -23,7 +23,7 @@ export const InfoCard = ({ label, value, icon, delay = 0 }: InfoCardProps) => {
     <div
       className={cn(
         "flex items-start justify-between gap-3 rounded-lg border bg-card p-4",
-        "animate-slide-up"
+        "animate-card-in"
       )}
       style={{ animationDelay: `${delay}ms` }}
     >
