@@ -1,5 +1,4 @@
 import { useState, useCallback } from "react";
-import { Link } from "react-router-dom";
 import { 
   User, 
   Phone, 
@@ -9,8 +8,7 @@ import {
   Sparkles,
   Copy,
   Check,
-  KeyRound,
-  ArrowRight
+  KeyRound
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InfoCard } from "@/components/InfoCard";
@@ -99,40 +97,24 @@ const Index = () => {
       {/* Content */}
       <div className="relative w-full max-w-md mx-auto px-4 pt-[env(safe-area-inset-top)]">
         {/* Header */}
-        <header className="py-6">
-          {/* Navigation to Phone Generator */}
-          <Link 
-            to="/sjh" 
-            className={cn(
-              "inline-flex items-center gap-2 text-sm text-muted-foreground mb-4",
-              "hover:text-foreground transition-colors duration-200",
-              "active:scale-95 touch-manipulation group"
-            )}
-          >
-            <Phone className="w-4 h-4" />
-            手机号批量生成
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-          
-          <div className="text-center">
-            <div className={cn(
-              "inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4 transition-all duration-500",
-              isGenerating 
-                ? "bg-primary/10 animate-pulse scale-95" 
-                : "bg-primary shadow-lg shadow-primary/25"
-            )}>
-              <Sparkles className={cn(
-                "w-7 h-7 transition-all duration-300",
-                isGenerating ? "text-primary animate-spin" : "text-primary-foreground"
-              )} />
-            </div>
-            <h1 className="text-xl font-semibold text-foreground mb-1">
-              信息生成器
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              点击卡片即可复制
-            </p>
+        <header className="py-6 text-center">
+          <div className={cn(
+            "inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4 transition-all duration-500",
+            isGenerating 
+              ? "bg-primary/10 animate-pulse scale-95" 
+              : "bg-primary shadow-lg shadow-primary/25"
+          )}>
+            <Sparkles className={cn(
+              "w-7 h-7 transition-all duration-300",
+              isGenerating ? "text-primary animate-spin" : "text-primary-foreground"
+            )} />
           </div>
+          <h1 className="text-xl font-semibold text-foreground mb-1">
+            信息生成器
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            点击卡片即可复制
+          </p>
         </header>
 
         {/* Cards */}

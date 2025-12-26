@@ -1,12 +1,11 @@
-import { useState, ReactNode } from "react";
-import { Check, Copy } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { Copy, Check } from "lucide-react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface InfoCardProps {
   label: string;
   value: string;
-  icon: ReactNode;
+  icon: React.ReactNode;
   delay?: number;
 }
 
@@ -17,71 +16,69 @@ export const InfoCard = ({ label, value, icon, delay = 0 }: InfoCardProps) => {
   const handleCopy = async () => {
     await navigator.clipboard.writeText(value);
     setCopied(true);
-    toast({
-      title: "✓ 已复制",
-      description: `${label}: ${value}`,
-    });
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 1500);
   };
 
   return (
-    <button
+    <div
+      className={cn(
+        "relative flex items-center gap-3 rounded-xl border bg-card p-3.5",
+        "transition-all duration-150 touch-manipulation select-none cursor-pointer",
+        "animate-card-in",
+        "hover:shadow-md hover:border-primary/20",
+        isPressed && "scale-[0.98] bg-accent/50 shadow-inner",
+        copied && "border-green-500/50 bg-green-50/50 shadow-green-100"
+      )}
+      style={{ animationDelay: `${delay}ms` }}
       onClick={handleCopy}
       onTouchStart={() => setIsPressed(true)}
       onTouchEnd={() => setIsPressed(false)}
       onMouseDown={() => setIsPressed(true)}
       onMouseUp={() => setIsPressed(false)}
       onMouseLeave={() => setIsPressed(false)}
-      className={cn(
-        "w-full p-4 rounded-xl",
-        "flex items-center gap-4",
-        "bg-card border border-border/50",
-        "shadow-sm hover:shadow-md",
-        "transition-all duration-200",
-        "active:scale-[0.98] touch-manipulation",
-        "animate-card-in",
-        isPressed && "scale-[0.98] shadow-inner",
-        copied && "border-green-500 bg-green-50/50"
-      )}
-      style={{ animationDelay: `${delay}ms` }}
+      role="button"
+      tabIndex={0}
     >
       {/* Icon */}
       <div className={cn(
-        "w-10 h-10 rounded-lg flex items-center justify-center",
-        "transition-colors duration-200",
-        copied ? "bg-green-100 text-green-600" : "bg-muted/50 text-muted-foreground"
+        "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200",
+        copied 
+          ? "bg-green-100 text-green-600 scale-105" 
+          : "bg-muted text-muted-foreground"
       )}>
         {icon}
       </div>
-      
+
       {/* Content */}
-      <div className="flex-1 text-left min-w-0">
-        <p className={cn(
-          "text-xs font-medium mb-0.5 transition-colors duration-200",
-          copied ? "text-green-600" : "text-muted-foreground"
-        )}>
+      <div className="flex-1 min-w-0">
+        <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-0.5">
           {label}
         </p>
-        <p className={cn(
-          "text-base font-medium truncate transition-colors duration-200",
-          copied ? "text-green-700" : "text-foreground"
-        )}>
+        <p className="text-[15px] font-medium text-foreground break-all leading-snug">
           {value}
         </p>
       </div>
-      
+
       {/* Copy indicator */}
       <div className={cn(
-        "w-8 h-8 rounded-lg flex items-center justify-center",
-        "transition-all duration-200",
-        copied ? "bg-green-100" : "bg-muted/30"
+        "flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200",
+        copied 
+          ? "bg-green-100 text-green-600" 
+          : "text-muted-foreground/40 group-hover:text-muted-foreground"
       )}>
         {copied ? (
-          <Check className="w-4 h-4 text-green-600 animate-bounce-in" />
+          <Check className="h-5 w-5 animate-bounce-in" />
         ) : (
-          <Copy className="w-3.5 h-3.5 text-muted-foreground" />
+          <Copy className="h-4 w-4" />
         )}
       </div>
-    </button>
+
+      {/* Success ripple effect */}
+      {copied && (
+        <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-green-500/5 animate-fade-in" />
+        </div>
+      )}
+    </div>
   );
 };
