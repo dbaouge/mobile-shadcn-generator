@@ -12,37 +12,55 @@ import {
   KeyRound,
   Smartphone,
   ArrowRight,
+  MapPin,
+  CreditCard,
+  Globe,
+  ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InfoCard } from "@/components/InfoCard";
-import { generateInfo, type GeneratedInfo } from "@/lib/generators";
+import { generateInfo, countries, type GeneratedInfo, type CountryCode } from "@/lib/generators";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+
+const idNumberLabels: Record<CountryCode, string> = {
+  CN: '身份证',
+  US: 'SSN',
+  UK: 'NI Number',
+  JP: 'マイナンバー',
+  KR: '주민등록번호',
+  DE: 'Personalausweis',
+};
 
 const Index = () => {
   const [info, setInfo] = useState<GeneratedInfo | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [allCopied, setAllCopied] = useState(false);
   const [key, setKey] = useState(0);
+  const [selectedCountry, setSelectedCountry] = useState<CountryCode>('CN');
+  const [showCountryPicker, setShowCountryPicker] = useState(false);
 
   const handleGenerate = useCallback(() => {
     setIsGenerating(true);
     setInfo(null);
     setTimeout(() => {
-      setInfo(generateInfo());
+      setInfo(generateInfo(selectedCountry));
       setKey(k => k + 1);
       setIsGenerating(false);
     }, 400);
-  }, []);
+  }, [selectedCountry]);
 
   const handleCopyAll = async () => {
     if (!info) return;
     
     const text = `姓名: ${info.name}
+性别: ${info.gender}
 生日: ${info.birthday}
 邮箱: ${info.email}
 手机: ${info.phone}
-密码: ${info.password}`;
+密码: ${info.password}
+${idNumberLabels[info.country]}: ${info.idNumber}
+地址: ${info.address}`;
 
     await navigator.clipboard.writeText(text);
     setAllCopied(true);
@@ -53,21 +71,17 @@ const Index = () => {
     setTimeout(() => setAllCopied(false), 2000);
   };
 
+  const selectedCountryData = countries.find(c => c.code === selectedCountry)!;
+
   return (
     <div className="min-h-[100dvh] bg-background relative overflow-x-hidden">
       {/* Background decorations */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--muted)/0.5)_0%,transparent_60%)]" />
-        
-        {/* Large blur circles */}
         <div className="absolute -top-32 -right-32 w-80 h-80 bg-primary/[0.03] rounded-full blur-3xl animate-float-slow" />
         <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-primary/[0.02] rounded-full blur-3xl animate-float-slow" style={{ animationDelay: '-3s' }} />
-        
-        {/* Grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--border)/0.4)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--border)/0.4)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black_40%,transparent_100%)]" />
         
-        {/* Floating shapes */}
         <div className="absolute top-24 left-6 w-2 h-2 bg-primary/20 rounded-full animate-float" style={{ animationDelay: '0s' }} />
         <div className="absolute top-40 right-8 w-3 h-3 border-2 border-primary/10 rounded-full animate-float" style={{ animationDelay: '-1s' }} />
         <div className="absolute top-1/3 left-4 w-1.5 h-1.5 bg-primary/15 rounded-full animate-float" style={{ animationDelay: '-2s' }} />
@@ -75,7 +89,6 @@ const Index = () => {
         <div className="absolute bottom-1/3 left-8 w-2 h-2 border-2 border-primary/10 rounded-sm rotate-12 animate-float" style={{ animationDelay: '-1.5s' }} />
         <div className="absolute bottom-48 right-10 w-2.5 h-2.5 bg-primary/10 rounded-full animate-float" style={{ animationDelay: '-2.5s' }} />
         
-        {/* Decorative dots grid */}
         <div className="absolute top-32 right-4 grid grid-cols-3 gap-1.5 opacity-30">
           {[...Array(9)].map((_, i) => (
             <div key={i} className="w-1 h-1 bg-primary/40 rounded-full" />
@@ -87,12 +100,10 @@ const Index = () => {
           ))}
         </div>
         
-        {/* Decorative lines */}
         <div className="absolute top-20 left-0 w-12 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         <div className="absolute top-36 right-0 w-16 h-px bg-gradient-to-l from-transparent via-primary/15 to-transparent" />
         <div className="absolute bottom-52 left-0 w-20 h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
         
-        {/* Corner accents */}
         <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-primary/10 rounded-tr-lg" />
         <div className="absolute bottom-24 left-4 w-6 h-6 border-b border-l border-primary/10 rounded-bl-lg" />
       </div>
@@ -119,6 +130,59 @@ const Index = () => {
             点击卡片即可复制
           </p>
           
+          {/* Country Selector */}
+          <div className="relative mt-4">
+            <button
+              onClick={() => setShowCountryPicker(!showCountryPicker)}
+              className={cn(
+                "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all",
+                "bg-card hover:bg-muted/50",
+                showCountryPicker ? "border-primary shadow-sm" : "border-border"
+              )}
+            >
+              <Globe className="w-4 h-4 text-muted-foreground" />
+              <span className="text-lg">{selectedCountryData.flag}</span>
+              <span className="text-sm font-medium">{selectedCountryData.name}</span>
+              <ChevronDown className={cn(
+                "w-4 h-4 text-muted-foreground transition-transform",
+                showCountryPicker && "rotate-180"
+              )} />
+            </button>
+            
+            {/* Country Dropdown */}
+            {showCountryPicker && (
+              <>
+                <div 
+                  className="fixed inset-0 z-40" 
+                  onClick={() => setShowCountryPicker(false)} 
+                />
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 z-50 w-48 py-2 rounded-xl border border-border bg-card shadow-xl animate-fade-in">
+                  {countries.map((country) => (
+                    <button
+                      key={country.code}
+                      onClick={() => {
+                        setSelectedCountry(country.code);
+                        setShowCountryPicker(false);
+                        setInfo(null);
+                      }}
+                      className={cn(
+                        "w-full px-4 py-2.5 flex items-center gap-3 transition-colors",
+                        "hover:bg-muted/50",
+                        selectedCountry === country.code && "bg-primary/5"
+                      )}
+                    >
+                      <span className="text-xl">{country.flag}</span>
+                      <span className="text-sm font-medium">{country.name}</span>
+                      {selectedCountry === country.code && (
+                        <Check className="w-4 h-4 text-primary ml-auto" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+          
           {/* Navigation to phone generator */}
           <Link 
             to="/sjh" 
@@ -134,7 +198,7 @@ const Index = () => {
         <main className="pb-32">
           {isGenerating ? (
             <div className="space-y-2.5">
-              {[...Array(5)].map((_, i) => (
+              {[...Array(7)].map((_, i) => (
                 <div 
                   key={i}
                   className="h-[72px] rounded-xl bg-gradient-to-r from-muted/50 via-muted/30 to-muted/50 animate-shimmer"
@@ -154,10 +218,16 @@ const Index = () => {
                 delay={0}
               />
               <InfoCard
+                label="性别"
+                value={info.gender}
+                icon={<User size={18} />}
+                delay={40}
+              />
+              <InfoCard
                 label="生日"
-                value={info.birthday}
+                value={`${info.birthday} (${info.age}岁)`}
                 icon={<Calendar size={18} />}
-                delay={60}
+                delay={80}
               />
               <InfoCard
                 label="邮箱"
@@ -169,13 +239,26 @@ const Index = () => {
                 label="手机"
                 value={info.phone}
                 icon={<Phone size={18} />}
-                delay={180}
+                delay={160}
               />
               <InfoCard
                 label="密码"
                 value={info.password}
                 icon={<KeyRound size={18} />}
+                delay={200}
+              />
+              <InfoCard
+                label={idNumberLabels[info.country]}
+                value={info.idNumber}
+                icon={<CreditCard size={18} />}
                 delay={240}
+              />
+              <InfoCard
+                label="地址"
+                value={info.address}
+                icon={<MapPin size={18} />}
+                delay={280}
+                multiline
               />
 
               {/* Copy All */}
@@ -187,7 +270,7 @@ const Index = () => {
                   "text-sm font-medium transition-all duration-200",
                   "active:scale-[0.98] touch-manipulation",
                   allCopied 
-                    ? "border-green-500 bg-green-50 text-green-600" 
+                    ? "border-green-500 bg-green-50 text-green-600 dark:bg-green-950/30" 
                     : "border-muted-foreground/20 text-muted-foreground hover:border-muted-foreground/40 hover:bg-muted/30"
                 )}
               >
@@ -210,11 +293,10 @@ const Index = () => {
                 <div className="w-24 h-24 rounded-full bg-muted/50 flex items-center justify-center mb-5">
                   <User className="w-12 h-12 text-muted-foreground/25" />
                 </div>
-                {/* Decorative ring */}
                 <div className="absolute inset-0 w-24 h-24 rounded-full border-2 border-dashed border-muted-foreground/10 animate-spin-slow" />
               </div>
               <p className="text-muted-foreground text-sm">
-                点击下方按钮开始
+                选择国家后点击下方按钮开始
               </p>
             </div>
           )}
