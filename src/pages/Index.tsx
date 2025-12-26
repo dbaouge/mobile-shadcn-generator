@@ -57,8 +57,24 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Background decoration */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl" />
+        {/* Gradient orbs */}
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-primary/20 to-primary/5 rounded-full blur-3xl animate-pulse-slow" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-primary/15 to-transparent rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-float" />
+        
+        {/* Grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--primary)/0.03)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--primary)/0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        
+        {/* Floating particles */}
+        <div className="absolute top-20 left-10 w-2 h-2 bg-primary/30 rounded-full animate-float" style={{ animationDelay: '0s' }} />
+        <div className="absolute top-40 right-16 w-3 h-3 bg-primary/20 rounded-full animate-float" style={{ animationDelay: '0.5s' }} />
+        <div className="absolute bottom-60 left-20 w-2 h-2 bg-primary/25 rounded-full animate-float" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 right-8 w-4 h-4 bg-primary/15 rounded-full animate-float" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute bottom-40 right-24 w-2 h-2 bg-primary/30 rounded-full animate-float" style={{ animationDelay: '2s' }} />
+        
+        {/* Decorative lines */}
+        <div className="absolute top-32 left-0 w-32 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        <div className="absolute bottom-48 right-0 w-40 h-px bg-gradient-to-l from-transparent via-primary/20 to-transparent" />
       </div>
 
       <div className="relative max-w-md mx-auto px-4 py-8 pb-24">
