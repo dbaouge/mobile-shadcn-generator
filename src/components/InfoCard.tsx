@@ -23,10 +23,11 @@ export const InfoCard = ({ label, value, icon, delay = 0 }: InfoCardProps) => {
     <div
       className={cn(
         "relative flex items-center gap-3 rounded-xl border bg-card p-3.5",
-        "transition-all duration-150 touch-manipulation select-none",
+        "transition-all duration-150 touch-manipulation select-none cursor-pointer",
         "animate-card-in",
-        isPressed && "scale-[0.98] bg-accent/50",
-        copied && "border-green-500/50 bg-green-50/50"
+        "hover:shadow-md hover:border-primary/20",
+        isPressed && "scale-[0.98] bg-accent/50 shadow-inner",
+        copied && "border-green-500/50 bg-green-50/50 shadow-green-100"
       )}
       style={{ animationDelay: `${delay}ms` }}
       onClick={handleCopy}
@@ -40,15 +41,17 @@ export const InfoCard = ({ label, value, icon, delay = 0 }: InfoCardProps) => {
     >
       {/* Icon */}
       <div className={cn(
-        "flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-colors",
-        copied ? "bg-green-100 text-green-600" : "bg-muted text-muted-foreground"
+        "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200",
+        copied 
+          ? "bg-green-100 text-green-600 scale-105" 
+          : "bg-muted text-muted-foreground"
       )}>
         {icon}
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wide mb-0.5">
+        <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mb-0.5">
           {label}
         </p>
         <p className="text-[15px] font-medium text-foreground break-all leading-snug">
@@ -60,8 +63,8 @@ export const InfoCard = ({ label, value, icon, delay = 0 }: InfoCardProps) => {
       <div className={cn(
         "flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200",
         copied 
-          ? "bg-green-100 text-green-600 scale-110" 
-          : "text-muted-foreground/50"
+          ? "bg-green-100 text-green-600" 
+          : "text-muted-foreground/40 group-hover:text-muted-foreground"
       )}>
         {copied ? (
           <Check className="h-5 w-5 animate-bounce-in" />
@@ -70,9 +73,11 @@ export const InfoCard = ({ label, value, icon, delay = 0 }: InfoCardProps) => {
         )}
       </div>
 
-      {/* Copied overlay */}
+      {/* Success ripple effect */}
       {copied && (
-        <div className="absolute inset-0 rounded-xl bg-green-500/5 pointer-events-none animate-fade-in" />
+        <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-green-500/5 animate-fade-in" />
+        </div>
       )}
     </div>
   );
