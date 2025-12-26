@@ -59,175 +59,143 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-[100dvh] bg-background relative overflow-x-hidden">
       {/* Background decorations */}
       <div className="fixed inset-0 pointer-events-none">
-        {/* Subtle grid */}
         <div className="absolute inset-0 bg-[linear-gradient(hsl(var(--muted))_1px,transparent_1px),linear-gradient(90deg,hsl(var(--muted))_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,black_70%,transparent_110%)]" />
-        
-        {/* Gradient blobs */}
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-muted/50 rounded-full blur-3xl" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-muted/50 rounded-full blur-3xl" />
-        
-        {/* Geometric shapes */}
-        <div className="absolute top-20 left-8 w-3 h-3 border-2 border-muted-foreground/10 rounded-full" />
-        <div className="absolute top-32 right-12 w-4 h-4 border-2 border-muted-foreground/10 rotate-45" />
-        <div className="absolute top-1/3 left-6 w-2 h-2 bg-muted-foreground/10 rounded-full" />
-        <div className="absolute top-1/2 right-8 w-3 h-3 border-2 border-muted-foreground/10 rounded-sm rotate-12" />
-        <div className="absolute bottom-40 left-10 w-4 h-4 border-2 border-muted-foreground/10 rounded-full" />
-        <div className="absolute bottom-60 right-16 w-2 h-2 bg-muted-foreground/10" />
-        
-        {/* Dotted pattern */}
-        <div className="absolute top-40 right-4 flex flex-col gap-2">
-          <div className="flex gap-2">
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-          </div>
-          <div className="flex gap-2">
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-          </div>
-          <div className="flex gap-2">
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-            <div className="w-1 h-1 bg-muted-foreground/20 rounded-full" />
-          </div>
-        </div>
-        
-        {/* Lines */}
-        <div className="absolute top-28 left-0 w-16 h-px bg-gradient-to-r from-transparent via-muted-foreground/20 to-transparent" />
-        <div className="absolute bottom-52 right-0 w-20 h-px bg-gradient-to-l from-transparent via-muted-foreground/20 to-transparent" />
       </div>
 
-      <div className="relative max-w-md mx-auto px-4 py-6 pb-24">
-        {/* Header */}
-        <Card className="mb-6">
-          <CardHeader className="text-center pb-4">
-            <div className="mx-auto w-12 h-12 rounded-lg bg-primary flex items-center justify-center mb-3">
-              <Shuffle className="w-6 h-6 text-primary-foreground" />
+      {/* Scrollable content */}
+      <div className="relative w-full max-w-md mx-auto px-4 pt-[env(safe-area-inset-top)] pb-[calc(5rem+env(safe-area-inset-bottom))]">
+        {/* Header - compact for mobile */}
+        <header className="sticky top-0 z-10 -mx-4 px-4 py-4 bg-background/80 backdrop-blur-lg border-b border-border/50">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0">
+              <Shuffle className="w-5 h-5 text-primary-foreground" />
             </div>
-            <CardTitle className="text-xl">信息生成器</CardTitle>
-            <CardDescription>一键生成随机身份信息</CardDescription>
-          </CardHeader>
-        </Card>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg font-semibold text-foreground truncate">信息生成器</h1>
+              <p className="text-xs text-muted-foreground">一键生成随机身份信息</p>
+            </div>
+            {info && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleCopyAll}
+                className="shrink-0 h-9 px-3"
+              >
+                {allCopied ? (
+                  <Check className="h-4 w-4" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
+              </Button>
+            )}
+          </div>
+        </header>
 
         {/* Content */}
-        {info ? (
-          <div className="space-y-3">
-            <InfoCard
-              label="姓名"
-              value={`${info.name} (${info.gender})`}
-              icon={<User size={18} />}
-              delay={0}
-            />
-            <InfoCard
-              label="年龄 / 生日"
-              value={`${info.age}岁 · ${info.birthday}`}
-              icon={<Calendar size={18} />}
-              delay={50}
-            />
-            <InfoCard
-              label="用户名"
-              value={info.username}
-              icon={<AtSign size={18} />}
-              delay={100}
-            />
-            <InfoCard
-              label="密码"
-              value={info.password}
-              icon={<KeyRound size={18} />}
-              delay={150}
-            />
-            <InfoCard
-              label="手机号码"
-              value={info.phone}
-              icon={<Phone size={18} />}
-              delay={200}
-            />
-            <InfoCard
-              label="电子邮箱"
-              value={info.email}
-              icon={<Mail size={18} />}
-              delay={250}
-            />
-            <InfoCard
-              label="身份证号"
-              value={info.idCard}
-              icon={<CreditCard size={18} />}
-              delay={300}
-            />
-            <InfoCard
-              label="银行卡号"
-              value={info.bankCard.replace(/(\d{4})/g, '$1 ').trim()}
-              icon={<CreditCard size={18} />}
-              delay={350}
-            />
-            <InfoCard
-              label="住址"
-              value={info.address}
-              icon={<MapPin size={18} />}
-              delay={400}
-            />
-            <InfoCard
-              label="公司"
-              value={info.company}
-              icon={<Building2 size={18} />}
-              delay={450}
-            />
+        <main className="py-4 space-y-2.5">
+          {info ? (
+            <>
+              <InfoCard
+                label="姓名"
+                value={`${info.name} (${info.gender})`}
+                icon={<User size={16} />}
+                delay={0}
+              />
+              <InfoCard
+                label="生日"
+                value={`${info.birthday} · ${info.age}岁`}
+                icon={<Calendar size={16} />}
+                delay={40}
+              />
+              <InfoCard
+                label="用户名"
+                value={info.username}
+                icon={<AtSign size={16} />}
+                delay={80}
+              />
+              <InfoCard
+                label="密码"
+                value={info.password}
+                icon={<KeyRound size={16} />}
+                delay={120}
+              />
+              <InfoCard
+                label="手机"
+                value={info.phone}
+                icon={<Phone size={16} />}
+                delay={160}
+              />
+              <InfoCard
+                label="邮箱"
+                value={info.email}
+                icon={<Mail size={16} />}
+                delay={200}
+              />
+              <InfoCard
+                label="身份证"
+                value={info.idCard}
+                icon={<CreditCard size={16} />}
+                delay={240}
+              />
+              <InfoCard
+                label="银行卡"
+                value={info.bankCard.replace(/(\d{4})/g, '$1 ').trim()}
+                icon={<CreditCard size={16} />}
+                delay={280}
+              />
+              <InfoCard
+                label="地址"
+                value={info.address}
+                icon={<MapPin size={16} />}
+                delay={320}
+              />
+              <InfoCard
+                label="公司"
+                value={info.company}
+                icon={<Building2 size={16} />}
+                delay={360}
+              />
+            </>
+          ) : (
+            <Card className="border-dashed">
+              <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+                <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-3">
+                  <User className="w-7 h-7 text-muted-foreground/60" />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  点击下方按钮开始生成
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </main>
+      </div>
 
-            {/* Copy All Button */}
+      {/* Fixed Bottom Button - safe area aware */}
+      <div className="fixed bottom-0 left-0 right-0 z-20">
+        <div className="bg-gradient-to-t from-background via-background to-transparent pt-6">
+          <div className="max-w-md mx-auto px-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
             <Button
-              variant="outline"
-              className="w-full mt-4"
-              onClick={handleCopyAll}
+              size="lg"
+              className="w-full h-12 text-base font-medium shadow-lg active:scale-[0.98] transition-transform"
+              onClick={handleGenerate}
+              disabled={isGenerating}
             >
-              {allCopied ? (
-                <>
-                  <Check className="h-4 w-4" />
-                  已复制全部
-                </>
+              {isGenerating ? (
+                <RefreshCw className="h-5 w-5 animate-spin" />
               ) : (
                 <>
-                  <Copy className="h-4 w-4" />
-                  复制全部信息
+                  <RefreshCw className="h-5 w-5" />
+                  {info ? '重新生成' : '生成信息'}
                 </>
               )}
             </Button>
           </div>
-        ) : (
-          <Card>
-            <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                <User className="w-8 h-8 text-muted-foreground" />
-              </div>
-              <p className="text-muted-foreground text-sm">
-                点击下方按钮生成信息
-              </p>
-            </CardContent>
-          </Card>
-        )}
-      </div>
-
-      {/* Fixed Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t">
-        <div className="max-w-md mx-auto">
-          <Button
-            size="lg"
-            className="w-full"
-            onClick={handleGenerate}
-            disabled={isGenerating}
-          >
-            {isGenerating ? (
-              <RefreshCw className="h-4 w-4 animate-spin" />
-            ) : (
-              <>
-                <RefreshCw className="h-4 w-4" />
-                {info ? '重新生成' : '生成信息'}
-              </>
-            )}
-          </Button>
         </div>
       </div>
     </div>
