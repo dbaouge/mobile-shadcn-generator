@@ -20,7 +20,22 @@ const streets = ['中山路', '人民路', '建设路', '解放路', '和平路'
 const communities = ['花园小区', '阳光花园', '金色家园', '翠苑小区', '碧水湾', '绿洲花园', '锦绣家园', '幸福里', '和谐苑', '美景园'];
 
 // Email domains
-const emailDomains = ['qq.com', '163.com', '126.com', 'sina.com', 'gmail.com', 'outlook.com', 'hotmail.com', 'icloud.com'];
+const emailDomains = ['gmail.com', 'outlook.com', 'hotmail.com', 'yahoo.com', 'icloud.com'];
+
+// English name parts for email
+const emailPrefixes = ['happy', 'cool', 'super', 'lucky', 'smart', 'sunny', 'sweet', 'nice', 'good', 'best', 'great', 'star', 'blue', 'sky', 'love', 'moon', 'pink', 'gold', 'fire', 'ice'];
+const emailNames = ['jack', 'tom', 'mike', 'john', 'alex', 'lily', 'anna', 'emma', 'lucy', 'mary', 'kate', 'jane', 'rose', 'amy', 'eva', 'leo', 'max', 'sam', 'ben', 'dan'];
+
+// Generate email prefix (English only)
+const generateEmailPrefix = (): string => {
+  const styles = [
+    () => random(emailNames) + randomNum(100, 9999),
+    () => random(emailPrefixes) + random(emailNames) + randomNum(10, 99),
+    () => random(emailNames) + '_' + randomNum(1000, 9999),
+    () => random(emailPrefixes) + randomNum(100, 999),
+  ];
+  return random(styles)();
+};
 
 // Utility functions
 const random = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
@@ -137,9 +152,8 @@ export const generateInfo = (): GeneratedInfo => {
   const age = new Date().getFullYear() - year;
   
   const phone = generatePhone();
-  const emailPrefix = name.length > 2 ? name.slice(1) : name;
-  const email = `${emailPrefix.toLowerCase()}${randomNum(100, 9999)}@${random(emailDomains)}`;
-  const username = generateUsername(emailPrefix);
+  const email = `${generateEmailPrefix()}@${random(emailDomains)}`;
+  const username = generateEmailPrefix();
   const password = generatePassword();
   
   return {
