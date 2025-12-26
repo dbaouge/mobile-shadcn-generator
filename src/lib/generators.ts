@@ -32,6 +32,8 @@ export interface GeneratedInfo {
   gender: '男' | '女';
   phone: string;
   email: string;
+  username: string;
+  password: string;
   idCard: string;
   birthday: string;
   age: number;
@@ -39,6 +41,39 @@ export interface GeneratedInfo {
   bankCard: string;
   company: string;
 }
+
+// Generate username
+const generateUsername = (name: string): string => {
+  const styles = [
+    () => name.toLowerCase() + randomNum(100, 9999),
+    () => name.toLowerCase() + '_' + randomNum(10, 99),
+    () => random(['happy', 'cool', 'super', 'great', 'nice', 'best']) + name.toLowerCase() + randomNum(1, 999),
+    () => name.toLowerCase() + random(['_ok', '_go', '_yes', '_top', '']),
+  ];
+  return random(styles)();
+};
+
+// Generate password
+const generatePassword = (): string => {
+  const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const lower = 'abcdefghijklmnopqrstuvwxyz';
+  const numbers = '0123456789';
+  const special = '!@#$%&*';
+  
+  let password = '';
+  password += upper[randomNum(0, upper.length - 1)];
+  password += lower[randomNum(0, lower.length - 1)];
+  password += numbers[randomNum(0, numbers.length - 1)];
+  password += special[randomNum(0, special.length - 1)];
+  
+  const all = upper + lower + numbers;
+  for (let i = 0; i < 8; i++) {
+    password += all[randomNum(0, all.length - 1)];
+  }
+  
+  // Shuffle
+  return password.split('').sort(() => Math.random() - 0.5).join('');
+};
 
 // Generate ID card number
 const generateIdCard = (provincePrefix: string, birthday: string): string => {
@@ -95,7 +130,7 @@ export const generateInfo = (): GeneratedInfo => {
   const unit = randomNum(1, 6);
   const room = randomNum(101, 2501);
   
-  const year = randomNum(1970, 2005);
+  const year = randomNum(1985, 2003);
   const month = randomNum(1, 12);
   const day = randomNum(1, 28);
   const birthday = `${year}-${padZero(month)}-${padZero(day)}`;
@@ -104,12 +139,16 @@ export const generateInfo = (): GeneratedInfo => {
   const phone = generatePhone();
   const emailPrefix = name.length > 2 ? name.slice(1) : name;
   const email = `${emailPrefix.toLowerCase()}${randomNum(100, 9999)}@${random(emailDomains)}`;
+  const username = generateUsername(emailPrefix);
+  const password = generatePassword();
   
   return {
     name,
     gender: isMale ? '男' : '女',
     phone,
     email,
+    username,
+    password,
     idCard: generateIdCard(province.prefix, birthday),
     birthday,
     age,
